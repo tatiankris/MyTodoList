@@ -3,6 +3,8 @@ import './App.css';
 import {TasksStateType, Todolist} from './Todolist';
 import {v1} from 'uuid';
 import {AddItemForm} from "./components/AddItem Form";
+import {AppBar, Button, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
+import {Menu} from "@mui/icons-material";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -55,7 +57,7 @@ function App() {
         setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskId ? {...m, isDone: isDone} : m) })
     }
 
-    function updateTask (todolistID: string, id: string, title: string) {
+    function changeTaskTitle (todolistID: string, id: string, title: string) {
         console.log(title);
         setTasks({...tasks, [todolistID]: tasks[todolistID].map(m=> m.id === id ? {...m, title: title} : m)})
 
@@ -83,10 +85,29 @@ const addTodoList = (title: string) => {
         ], ...tasks})
 }
 
+const changeTodolistTitle = (todolistID: string, title: string) => {
+    setTodoLists(todoLists.map(m => m.id === todolistID ? {...m,title: title} : m));
+}
+
     return (
         <div className="App">
-            <AddItemForm callBack={addTodoList} />
-            {todoLists.map(m => {
+            <AppBar position="static">
+                <Toolbar variant="dense">
+                    <IconButton edge="start" color="inherit" aria-label="menu" sx={{mr: 2}}>
+                        <Menu/>
+                    </IconButton>
+                    <Typography variant="h6" color="inherit" component="div">
+                        News
+                    </Typography>
+                    <Button color={"inherit"}>Login</Button>
+                </Toolbar>
+            </AppBar>
+            <Grid container style={{padding: "20px"}}>
+                <AddItemForm callBack={addTodoList}/>
+            </Grid>
+            <Grid container spacing={3} style={{margin:"0 10px 0 10px"}}>
+                {todoLists.map(m => {
+
                     let allTodolistTasks = tasks[m.id]
 
                     let tasksForTodolist = allTodolistTasks;
@@ -98,20 +119,27 @@ const addTodoList = (title: string) => {
                         tasksForTodolist = tasks[m.id].filter(t => t.isDone === true);
                     }
                     return (
-                        <Todolist title={m.title}
-                                  key={m.id}
-                                  todolistID={m.id}
-                                  tasks={tasksForTodolist}
-                                  removeTask={removeTask}
-                                  changeFilter={changeFilter}
-                                  addTask={addTask}
-                                  changeTaskStatus={changeStatus}
-                                  filter={m.filter}
-                                  removeTodolist={removeTodolist}
-                                  updateTask={updateTask}
-                />
+                        <Grid item>
+                            <Paper style={{padding: "10px"}}>
+                                <Todolist title={m.title}
+                                          key={m.id}
+                                          todolistID={m.id}
+                                          tasks={tasksForTodolist}
+                                          removeTask={removeTask}
+                                          changeFilter={changeFilter}
+                                          addTask={addTask}
+                                          changeTaskStatus={changeStatus}
+                                          filter={m.filter}
+                                          removeTodolist={removeTodolist}
+                                          changeTaskTitle={changeTaskTitle}
+                                          changeTodolistTitle={changeTodolistTitle}
+
+                                />
+                            </Paper>
+                        </Grid>
                     )
                 })}
+            </Grid>
         </div>
     )
 }

@@ -1,8 +1,9 @@
 import React, {useState, FocusEvent, ChangeEvent} from "react";
+import {TextField} from "@mui/material";
 
 type PropsType = {
     title: string
-    callBack: (title: string) => void
+    onChange: (title: string) => void
 }
 
 export function EditableSpan ({title,...props}: PropsType) {
@@ -16,27 +17,27 @@ export function EditableSpan ({title,...props}: PropsType) {
     }
 
 
-    const addTask = () => {
+    const changeTaskTitle = () => {
         let updatedTitle = newTitle.trim();
         if (updatedTitle !== ""){
-            props.callBack(updatedTitle);
+            props.onChange(updatedTitle);
         }
     }
 
 
-    const editTrue = () => {
-        setEdit(false)
-        addTask();
+    const editFalse = () => {
+        setEdit(false);
+        changeTaskTitle();
     }
 
-    const editFalse = () => {
-        setEdit(true)
-
+    const editTrue = () => {
+        setEdit(true);
+        setNewTitle(title);
     }
 
     return (
         edit
-            ? <input value={newTitle} onChange={onChangeHandler} onBlur={editTrue} autoFocus />
-            : <span onDoubleClick={editFalse}>{title}</span>
+            ? <TextField value={newTitle} onChange={onChangeHandler} onBlur={editFalse} autoFocus />
+            : <span onDoubleClick={editTrue}>{title}</span>
     )
 }

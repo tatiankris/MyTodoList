@@ -2,6 +2,10 @@ import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {FilterValuesType} from './App';
 import {AddItemForm} from "./components/AddItem Form";
 import {EditableSpan} from "./components/EditableSpan";
+import {Button, Checkbox, IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
+
+
 
 type TaskType = {
     id: string
@@ -23,7 +27,8 @@ type PropsType = {
     changeTaskStatus: (todolistID: string, taskId: string, isDone: boolean) => void
     filter: FilterValuesType
     removeTodolist: (todolistID: string) => void
-    updateTask: (todolistID: string, id: string, title: string) => void
+    changeTaskTitle: (todolistID: string, id: string, title: string) => void
+    changeTodolistTitle: (todolistID: string, title: string) => void
 }
 
 export function Todolist(props: PropsType) {
@@ -61,40 +66,49 @@ export function Todolist(props: PropsType) {
         props.addTask(props.todolistID, title);
     }
 
-    const updateTaskHandler = (id: string, title: string) => {
-        props.updateTask (props.todolistID, id, title);
+    const changeTodolistTitle = (title: string) => {
+        props.changeTodolistTitle(props.todolistID, title);
     }
+
     return <div>
-        <h3>{props.title}<button onClick={removeTodolistHandler}>x</button></h3>
+        <h3><EditableSpan title={props.title} onChange={changeTodolistTitle}/>
+            <IconButton onClick={removeTodolistHandler}>
+                <Delete />
+            </IconButton></h3>
         <AddItemForm callBack={addTaskHandler} />
 
-        <ul>
+        <div>
             {
                 props.tasks.map(t => {
                     const onClickHandler = () => props.removeTask(props.todolistID, t.id)
-                    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+                    const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
                         props.changeTaskStatus(props.todolistID, t.id, e.currentTarget.checked);
+                    }
+                    const onChangeTaskHandler = (title: string) => {
+                        props.changeTaskTitle (props.todolistID, t.id, title);
                     }
 
 
+                    return <div key={t.id} className={t.isDone ? "is-done" : ""}>
 
-                    return <li key={t.id} className={t.isDone ? "is-done" : ""}>
-                        <input type="checkbox"
-                               onChange={onChangeHandler}
+                        <Checkbox
+                               onChange={onChangeStatusHandler}
                                checked={t.isDone}/>
-                        <EditableSpan  title={t.title} callBack={(title: string) => updateTaskHandler(t.id,title)} />
-                        <button onClick={onClickHandler}>x</button>
-                    </li>
+                        <EditableSpan  title={t.title} onChange={onChangeTaskHandler} />
+                        <IconButton onClick={onClickHandler}>
+                            <Delete />
+                        </IconButton>
+                    </div>
                 })
             }
-        </ul>
+        </div>
         <div>
-            <button className={props.filter === 'all' ? "active-filter" : ""}
-                    onClick={onAllClickHandler}>All</button>
-            <button className={props.filter === 'active' ? "active-filter" : ""}
-                onClick={onActiveClickHandler}>Active</button>
-            <button className={props.filter === 'completed' ? "active-filter" : ""}
-                onClick={onCompletedClickHandler}>Completed</button>
+            <Button variant={props.filter === 'all' ? "contained" : "text"}
+                    onClick={onAllClickHandler}>All</Button>
+            <Button color={'primary'} variant={props.filter === 'active' ? "contained" : "text"}
+                onClick={onActiveClickHandler}>Active</Button>
+            <Button color={"secondary"} variant={props.filter === 'completed' ? "contained" : "text"}
+                onClick={onCompletedClickHandler}>Completed</Button>
         </div>
     </div>
 }
