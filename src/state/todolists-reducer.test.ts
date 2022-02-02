@@ -81,7 +81,7 @@ test('todolist filter should been changed', () => {
     const action = {
         type: "CHANGE-TODOLIST-FILTER" as const,
         id: todolistID2,
-        filter: 'completed',
+        filter: "completed" as const,
     }
 
     let newState = todolistsReducer(state, action);
