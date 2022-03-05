@@ -58,16 +58,16 @@ test('todolist should been added', () => {
     const todolistID2 = v1();
 
     let state: Array<todolistType> = [
-        {id:todolistID1, title:'What to learn', filter: 'all'},
-        {id:todolistID2, title:'What to buy', filter: 'all'},
+        {id:todolistID1, title:'What to learn', filter: 'completed'},
+        {id:todolistID2, title:'What to buy', filter: 'completed'},
     ]
 
 
     let newState = todolistsReducer(state, addTodolistAC("New todolist"));
 
     expect(newState.length).toBe(3);
-    expect(newState[2].title).toBe("New todolist");
-    expect(newState[2].filter).toBe("all");
+    expect(newState[0].title).toBe("New todolist");
+    expect(newState[0].filter).toBe("all");
 
 })
 
