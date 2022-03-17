@@ -8,7 +8,8 @@ import {ControlPoint} from "@mui/icons-material";
 type AddItemFormPropsType = {
     callBack: (title: string) => void
 }
-export function AddItemForm (props: AddItemFormPropsType) {
+
+export const AddItemForm = React.memo(function  (props: AddItemFormPropsType) {
 
     let [title, setTitle] = useState("")
     let [error, setError] = useState<string | null>(null)
@@ -28,12 +29,15 @@ export function AddItemForm (props: AddItemFormPropsType) {
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null);
+        if (error !== null) {
+            setError(null);
+        }
         if (e.charCode === 13) {
             addTask();
         }
     }
 
+    // console.log("AddItemForm")
     return (
         <div>
             <TextField value={title}
@@ -50,4 +54,4 @@ export function AddItemForm (props: AddItemFormPropsType) {
             {/*{error && <div className="error-message">{error}</div>}*/}
         </div>
     )
-}
+});
