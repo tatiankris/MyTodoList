@@ -1,13 +1,13 @@
 import React, {useCallback} from 'react';
 import {FilterValuesType} from './App';
-import {AddItemForm} from "./components/AddItem Form";
+import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {Task} from "./Task";
 
 
-export type TaskType = {
+export type  TaskType = {
     id: string
     title: string
     isDone: boolean
