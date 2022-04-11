@@ -1,34 +1,31 @@
 import React, {useCallback, useState} from 'react';
 import './App.css';
-import {TasksStateType, Todolist} from './Todolist';
+import {Todolist} from './Todolist';
 import {v1} from 'uuid';
 import {AddItemForm} from "./components/AddItemForm";
 import {AppBar, Button, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
 import {useDispatch, useSelector} from "react-redux";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, TasksStateType} from "./state/tasks-reducer";
 import {
     addTodolistAC,
     changeTodolistFilterAC,
     changeTodolistTitleAC,
-    removeTodolistAC
+    removeTodolistAC, TodolistDomainType, FilterValuesType
 } from "./state/todolists-reducer";
 import {AppRootState} from "./state/store";
+import {TaskStatuses} from "./api/tasks-api";
 
-export type FilterValuesType = "all" | "active" | "completed";
 
-export type todolistType ={
-    id: string
-    title: string
-    filter: FilterValuesType
-}
+
+
 
 function App() {
 
 
 
     const dispatch = useDispatch();
-    const todoLists = useSelector<AppRootState, Array<todolistType>>(state => state.todoLists);
+    const todoLists = useSelector<AppRootState, Array<TodolistDomainType>>(state => state.todoLists);
     const tasks = useSelector<AppRootState, TasksStateType>(state => state.tasks);
 
 
@@ -40,8 +37,8 @@ function App() {
        dispatch(removeTaskAC(todolistID, id));
     }, [dispatch])
 
-    const changeStatus = useCallback((todolistID: string, taskId: string, isDone: boolean) => {
-        dispatch(changeTaskStatusAC(todolistID, taskId, isDone));
+    const changeStatus = useCallback((todolistID: string, taskId: string, status: TaskStatuses) => {
+        dispatch(changeTaskStatusAC(todolistID, taskId, status));
     }, [dispatch])
 
     const changeTaskTitle = useCallback((todolistID: string, id: string, title: string) => {

@@ -1,11 +1,11 @@
 import axios from "axios";
 import {CreateTodoLists, DeleteTodoLists, UpdateTodoLists} from "../stories/todolists-api.stories";
 
-type TodolistType = {
-    addedDate: string
+export type TodolistType = {
     id: string
-    order: number
     title: string
+    order: number
+    addedDate: string
 }
 
 export type ResponseType<D> = {
