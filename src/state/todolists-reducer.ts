@@ -1,5 +1,6 @@
 import {v1} from "uuid";
-import {TodolistType} from "../api/todolist-api";
+import {todolistAPI, TodolistType} from "../api/todolist-api";
+import {Dispatch} from "redux";
 
 export type FilterValuesType = "all" | "active" | "completed";
 export type RemoveTodolistActionType = {
@@ -27,9 +28,15 @@ type ChangeTodolistFilterActionType = {
     type: "CHANGE-TODOLIST-FILTER"
     id: string
     filter: FilterValuesType
+
+}
+export type SetTodolistsActionType = {
+    type: "SET-TODOLISTS"
+    todoLists: Array<TodolistType>,
 }
 
-type ActionsType = RemoveTodolistActionType | ChangeTodolistTitleActionType | AddTodolistActionType | ChangeTodolistFilterActionType;
+export type ActionsType = RemoveTodolistActionType | ChangeTodolistTitleActionType |
+    AddTodolistActionType | ChangeTodolistFilterActionType | SetTodolistsActionType;
 
 export const todolistID1 = v1();
 export const todolistID2 = v1();
@@ -67,6 +74,10 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
             return [...state];
         }
 
+        case "SET-TODOLISTS": {
+                return action.todoLists.map(t => ({...t, filter: "all"}));
+        }
+
 
         default:
             return state;
@@ -102,5 +113,25 @@ export const changeTodolistFilterAC = (todolistID: string, filter: FilterValuesT
         type: "CHANGE-TODOLIST-FILTER",
         id: todolistID,
         filter: filter,
+    }
+}
+
+export const setTodolists = (todoLists: Array<TodolistType>): SetTodolistsActionType => {
+    return {
+        type: "SET-TODOLISTS",
+        todoLists,
+    }
+}
+
+
+
+
+export const getTodoListsTC = () => {
+    return (dispatch: Dispatch) => {
+        todolistAPI.getTodoLists()
+            .then(res => {
+                dispatch(setTodolists(res.data));
+            })
+
     }
 }

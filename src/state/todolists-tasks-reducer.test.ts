@@ -1,13 +1,11 @@
-import {todolistType} from "../App";
-import {v1} from "uuid";
-import {addTodolistAC, todolistsReducer} from "./todolists-reducer";
-import {tasksReducer} from "./tasks-reducer";
-import {TasksStateType} from "../Todolist";
+import {addTodolistAC, TodolistDomainType, todolistsReducer} from "./todolists-reducer";
+import {tasksReducer, TasksStateType} from "./tasks-reducer";
+
 
 test ("d0", () => {
 
 
-    const todolistsState: Array<todolistType> = [];
+    const todolistsState: Array<TodolistDomainType> = [];
 
     const tasksState: TasksStateType = {};
 

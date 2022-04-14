@@ -1,22 +1,34 @@
 
-import {TasksStateType} from "../Todolist";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasks-reducer";
-import {addTodolistAC, removeTodolistAC} from "./todolists-reducer";
+import {
+    addTaskAC,
+    changeTaskStatusAC,
+    changeTaskTitleAC,
+    removeTaskAC,
+    tasksReducer,
+    TasksStateType
+} from "./tasks-reducer";
+import {addTodolistAC, removeTodolistAC, todolistID1} from "./todolists-reducer";
+import {TaskPriorities, TaskStatuses} from "../api/tasks-api";
 
 test('task should be removed',() => {
 
         const startState: TasksStateType = {
             "todolistID1" : [
-                {id: '1', title: "HTML&CSS", isDone: true},
-                {id: '2', title: "JS", isDone: true},
-                {id: '3', title: "ReactJS", isDone: false},
+                {id: '1', title: "HTML&CSS", status: TaskStatuses.Completed, todoListId: "todolistID1", order: 0,
+                    addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+                {id: '2', title: "JS", status: TaskStatuses.Completed, todoListId: "todolistID1", order: 0,
+                    addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+                {id: '3', title: "ReactJS", status: TaskStatuses.New, todoListId: "todolistID1", order: 0,
+                    addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
 
             ],
             "todolistID2" : [
-                {id: '1', title: "Nike", isDone: true},
-                {id: '2', title: "Puma", isDone: false},
-                {id: '3', title: "Adidas", isDone: false},
-
+                {id: '1', title: "Nike", status: TaskStatuses.Completed, todoListId: "todolistID2", order: 0,
+                    addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+                {id: '2', title: "Puma", status: TaskStatuses.New, todoListId: "todolistID2", order: 0,
+                    addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+                {id: '3', title: "Adidas", status: TaskStatuses.New, todoListId: "todolistID2", order: 0,
+                    addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
             ]
         }
 
@@ -35,16 +47,21 @@ test ("task should be added", () => {
 
     const startState: TasksStateType = {
         "todolistID1" : [
-            {id: '1', title: "HTML&CSS", isDone: true},
-            {id: '2', title: "JS", isDone: true},
-            {id: '3', title: "ReactJS", isDone: false},
+            {id: '1', title: "HTML&CSS", status: TaskStatuses.Completed, todoListId: "todolistID1", order: 0,
+                addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+            {id: '2', title: "JS", status: TaskStatuses.Completed, todoListId: "todolistID1", order: 0,
+                addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+            {id: '3', title: "ReactJS", status: TaskStatuses.New, todoListId: "todolistID1", order: 0,
+                addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
 
         ],
         "todolistID2" : [
-            {id: '1', title: "Nike", isDone: true},
-            {id: '2', title: "Puma", isDone: false},
-            {id: '3', title: "Adidas", isDone: false},
-
+            {id: '1', title: "Nike", status: TaskStatuses.Completed, todoListId: "todolistID2", order: 0,
+                addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+            {id: '2', title: "Puma", status: TaskStatuses.New, todoListId: "todolistID2", order: 0,
+                addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+            {id: '3', title: "Adidas", status: TaskStatuses.New, todoListId: "todolistID2", order: 0,
+                addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
         ]
     }
 
@@ -56,7 +73,7 @@ test ("task should be added", () => {
     expect(newState["todolistID2"].length).toBe(4);
     expect(newState["todolistID2"][0].title).toBe("Rebook");
     expect(newState["todolistID2"][0].id).toBeDefined();
-    expect(newState["todolistID2"][0].isDone).toBe(false);
+    expect(newState["todolistID2"][0].status).toBe(TaskStatuses.New);
 
 
 })
@@ -65,25 +82,30 @@ test('tasks status should be changed',() => {
 
         const startState: TasksStateType = {
             "todolistID1" : [
-                {id: '1', title: "HTML&CSS", isDone: true},
-                {id: '2', title: "JS", isDone: false},
-                {id: '3', title: "ReactJS", isDone: false},
+                {id: '1', title: "HTML&CSS", status: TaskStatuses.Completed, todoListId: "todolistID1", order: 0,
+                    addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+                {id: '2', title: "JS", status: TaskStatuses.Completed, todoListId: "todolistID1", order: 0,
+                    addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+                {id: '3', title: "ReactJS", status: TaskStatuses.New, todoListId: "todolistID1", order: 0,
+                    addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
 
             ],
             "todolistID2" : [
-                {id: '1', title: "Nike", isDone: true},
-                {id: '2', title: "Puma", isDone: false},
-                {id: '3', title: "Adidas", isDone: false},
-
+                {id: '1', title: "Nike", status: TaskStatuses.Completed, todoListId: "todolistID2", order: 0,
+                    addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+                {id: '2', title: "Puma", status: TaskStatuses.New, todoListId: "todolistID2", order: 0,
+                    addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+                {id: '3', title: "Adidas", status: TaskStatuses.New, todoListId: "todolistID2", order: 0,
+                    addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
             ]
         }
 
-        let action = changeTaskStatusAC("todolistID2", "2", true);
+        let action = changeTaskStatusAC("todolistID2", "2", TaskStatuses.Completed);
 
         let newState = tasksReducer(startState, action);
 
-        expect(newState["todolistID1"][1].isDone).toBe(false);
-        expect(newState["todolistID2"][1].isDone).toBe(true);
+        expect(newState["todolistID1"][1].status).toBe(TaskStatuses.New);
+        expect(newState["todolistID2"][1].status).toBe(TaskStatuses.Completed);
         expect(newState["todolistID2"][1].id).toBe('2');
     }
 )
@@ -92,16 +114,21 @@ test('tasks title should be changed',() => {
 
         const startState: TasksStateType = {
             "todolistID1" : [
-                {id: '1', title: "HTML&CSS", isDone: true},
-                {id: '2', title: "JS", isDone: false},
-                {id: '3', title: "ReactJS", isDone: false},
+                {id: '1', title: "HTML&CSS", status: TaskStatuses.Completed, todoListId: "todolistID1", order: 0,
+                    addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+                {id: '2', title: "JS", status: TaskStatuses.Completed, todoListId: "todolistID1", order: 0,
+                    addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+                {id: '3', title: "ReactJS", status: TaskStatuses.New, todoListId: "todolistID1", order: 0,
+                    addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
 
             ],
             "todolistID2" : [
-                {id: '1', title: "Nike", isDone: true},
-                {id: '2', title: "Puma", isDone: false},
-                {id: '3', title: "Adidas", isDone: false},
-
+                {id: '1', title: "Nike", status: TaskStatuses.Completed, todoListId: "todolistID2", order: 0,
+                    addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+                {id: '2', title: "Puma", status: TaskStatuses.New, todoListId: "todolistID2", order: 0,
+                    addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+                {id: '3', title: "Adidas", status: TaskStatuses.New, todoListId: "todolistID2", order: 0,
+                    addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
             ]
         }
 
@@ -121,16 +148,21 @@ test ("new property and new array should be added, when new todolist is added", 
 
     const startState: TasksStateType = {
         "todolistID1" : [
-            {id: '1', title: "HTML&CSS", isDone: true},
-            {id: '2', title: "JS", isDone: true},
-            {id: '3', title: "ReactJS", isDone: false},
+            {id: '1', title: "HTML&CSS", status: TaskStatuses.Completed, todoListId: "todolistID1", order: 0,
+                addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+            {id: '2', title: "JS", status: TaskStatuses.Completed, todoListId: "todolistID1", order: 0,
+                addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+            {id: '3', title: "ReactJS", status: TaskStatuses.New, todoListId: "todolistID1", order: 0,
+                addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
 
         ],
         "todolistID2" : [
-            {id: '1', title: "Nike", isDone: true},
-            {id: '2', title: "Puma", isDone: false},
-            {id: '3', title: "Adidas", isDone: false},
-
+            {id: '1', title: "Nike", status: TaskStatuses.Completed, todoListId: "todolistID2", order: 0,
+                addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+            {id: '2', title: "Puma", status: TaskStatuses.New, todoListId: "todolistID2", order: 0,
+                addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+            {id: '3', title: "Adidas", status: TaskStatuses.New, todoListId: "todolistID2", order: 0,
+                addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
         ]
     }
 
@@ -157,16 +189,21 @@ test (" property and array should be deleted", () => {
 
     const startState: TasksStateType = {
         "todolistID1" : [
-            {id: '1', title: "HTML&CSS", isDone: true},
-            {id: '2', title: "JS", isDone: true},
-            {id: '3', title: "ReactJS", isDone: false},
+            {id: '1', title: "HTML&CSS", status: TaskStatuses.Completed, todoListId: "todolistID1", order: 0,
+                addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+            {id: '2', title: "JS", status: TaskStatuses.Completed, todoListId: "todolistID1", order: 0,
+                addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+            {id: '3', title: "ReactJS", status: TaskStatuses.New, todoListId: "todolistID1", order: 0,
+                addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
 
         ],
         "todolistID2" : [
-            {id: '1', title: "Nike", isDone: true},
-            {id: '2', title: "Puma", isDone: false},
-            {id: '3', title: "Adidas", isDone: false},
-
+            {id: '1', title: "Nike", status: TaskStatuses.Completed, todoListId: "todolistID2", order: 0,
+                addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+            {id: '2', title: "Puma", status: TaskStatuses.New, todoListId: "todolistID2", order: 0,
+                addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
+            {id: '3', title: "Adidas", status: TaskStatuses.New, todoListId: "todolistID2", order: 0,
+                addedDate: '', priority: TaskPriorities.Middle, startDate: "", deadline: "", description: ""},
         ]
     }
 

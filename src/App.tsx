@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import './App.css';
 import {Todolist} from './Todolist';
 import {v1} from 'uuid';
@@ -11,7 +11,7 @@ import {
     addTodolistAC,
     changeTodolistFilterAC,
     changeTodolistTitleAC,
-    removeTodolistAC, TodolistDomainType, FilterValuesType
+    removeTodolistAC, TodolistDomainType, FilterValuesType, getTodoListsTC
 } from "./state/todolists-reducer";
 import {AppRootState} from "./state/store";
 import {TaskStatuses} from "./api/tasks-api";
@@ -23,6 +23,9 @@ import {TaskStatuses} from "./api/tasks-api";
 function App() {
 
 
+    useEffect( () => {
+            getTodoListsTC()
+        },[])
 
     const dispatch = useDispatch();
     const todoLists = useSelector<AppRootState, Array<TodolistDomainType>>(state => state.todoLists);
